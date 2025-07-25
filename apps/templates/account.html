@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account | SHALLION</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <a href="home.html" class="logo">SHALLION</a>
+            <nav class="main-nav">
+                <div class="nav-links">
+                    <a href="shop.html">Shop</a>
+                    <a href="food-shop.html">Food</a>
+                    <a href="account.html" class="active">Account</a>
+                    <a href="help.html">Help</a>
+                </div>
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Search Shallion...">
+                    <button id="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="nav-actions">
+                    <a href="cart.html" class="cart-link">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="account-container container">
+        <aside class="account-sidebar">
+            <h2>My Account</h2>
+            <nav class="account-nav">
+                <a href="#" class="active">Dashboard</a>
+                <a href="#">Orders</a>
+                <a href="#">Addresses</a>
+                <a href="#">Account Details</a>
+                <a href="#">Logout</a>
+            </nav>
+        </aside>
+        
+        <section class="account-content">
+            <h1>Account Dashboard</h1>
+            <p>Hello! Here you can view your recent orders, manage your shipping and billing addresses, and edit your password and account details.</p>
+            
+            <div class="account-section">
+                <h2>Recent Orders</h2>
+                <p>You haven't placed any orders yet.</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/app.js" type="module"></script>
+</body>
+</html>
