@@ -1,0 +1,29 @@
+{% extends "settings/base.html" %}
+{% load static %}
+{% load countries %}
+{% block title %}See my Country{% endblock %}
+{% block content %}
+    <h1 class="h4 mb-3">Personal Information</h1>
+    <div class="d-flex flex-wrap gap-4 mb-5">
+        <a href="{% url 'users:upload_photo' %}" class="text-primary text-decoration-none">Upload Photo</a>
+        <a href="{% url 'users:read_profile' %}" class="text-primary text-decoration-none">Edit Profile</a>
+        <a href="{% url 'users:read_country' %}" class="text-secondary text-decoration-none">Country/Region</a>
+        <a href="#" class="text-danger text-decoration-none">Delete Account</a>
+    </div>
+
+    <div class="account-section">
+        <h2 class="h5 mb-3">
+            Your country:
+            {% if user_profile.country %}
+                <div class="mt-3">
+                    <img src="{% static 'flags/'|add:user_profile.country.code|add:'.gif' %}"
+                         alt="{{ user_profile.get_country_display }}">
+                    <span>{{ user_profile.get_country_display }}</span>
+                </div>
+            {% endif %}
+        </h2>
+        <div class="container mt-3">
+            <a class="btn btn-warning" href="{% url 'users:country' %}">Edit Country</a>
+        </div>
+    </div>
+{% endblock %}

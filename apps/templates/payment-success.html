@@ -1,0 +1,259 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .receipt-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 20px;
+        }
+        .logo-container img {
+            height: 80px;
+        }
+        .confirmation-header {
+            text-align: center;
+            padding: 20px;
+            background: #2F4054;
+            color: white;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        .order-items {
+            margin-bottom: 30px;
+        }
+        .order-item {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .item-image {
+            width: 80px;
+            height: 80px;
+            margin-right: 15px;
+        }
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .item-details {
+            flex-grow: 1;
+        }
+        .item-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .item-variants {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        .item-price {
+            font-weight: bold;
+        }
+        .order-summary {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .summary-label {
+            font-weight: bold;
+        }
+        .total-row {
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            margin-top: 10px;
+            font-size: 1.1em;
+        }
+        .actions {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .btn-done {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-done:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    {% comment %} <header class="main-header">
+        <div class="container">
+            <a href="home.html" class="logo">SHALLION</a>
+            <nav class="main-nav">
+                <div class="nav-links">
+                    <a href="shop.html">Shop</a>
+                    <a href="food-shop.html">Food</a>
+                    <a href="account.html">Account</a>
+                    <a href="help.html">Help</a>
+                </div>
+                <div class="nav-actions">
+                    <a href="cart.html" class="cart-link">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header> {% endcomment %}
+    {% include 'partials/header.html' %}
+
+    <div class="receipt-header">
+        <div>
+            <h1>Order Confirmation</h1>
+            <div class="detail-row">
+                <span class="detail-label">Order Number:</span>
+                <span id="order-id"></span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Date:</span>
+                <span id="order-date"></span>
+            </div>
+        </div>
+        <div class="logo-container">
+            <img src="assets/images/shallion-logo.png" alt="Shallion Logo">
+        </div>
+    </div>
+
+    <div class="confirmation-header">
+        <h2>Thank you for your order!</h2>
+        <p>Your payment was successful and your order is being processed</p>
+    </div>
+
+    <div class="order-items" id="order-items-container">
+        <!-- Items will be inserted here by JavaScript -->
+    </div>
+
+    <div class="order-summary">
+        <h3>Order Summary</h3>
+        <div class="summary-row">
+            <span class="summary-label">Subtotal:</span>
+            <span id="order-subtotal"></span>
+        </div>
+        <div class="summary-row">
+            <span class="summary-label">Shipping:</span>
+            <span id="order-shipping"></span>
+        </div>
+        <div class="summary-row">
+            <span class="summary-label">Tax:</span>
+            <span id="order-tax"></span>
+        </div>
+        <div class="summary-row total-row">
+            <span class="summary-label">Total:</span>
+            <span id="order-total"></span>
+        </div>
+    </div>
+
+    <p>A confirmation email has been sent to your email address with your order details.</p>
+
+    <div class="actions">
+        <button onclick="window.location.href='shop.html'" class="btn-done">Back to Shopping</button>
+    </div>
+
+    <script>
+        // Parse URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('order_id');
+        const amount = urlParams.get('amount');
+        
+        // Display order details
+        if (orderId) {
+            document.getElementById('order-id').textContent = orderId;
+        }
+        
+        // Set current date
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('order-date').textContent = new Date().toLocaleDateString('en-GB', options);
+        
+        // Load order items from localStorage
+        try {
+            const orderItems = JSON.parse(localStorage.getItem('pendingOrderItems') || '[]');
+            const orderSummary = JSON.parse(localStorage.getItem('pendingOrderSummary') || '{}');
+            
+            // Display items
+            const itemsContainer = document.getElementById('order-items-container');
+            if (itemsContainer && orderItems.length > 0) {
+                itemsContainer.innerHTML = orderItems.map(item => `
+                    <div class="order-item">
+                        <div class="item-image">
+                            <img src="${item.image || '/images/placeholder-product.jpg'}" alt="${item.name}">
+                        </div>
+                        <div class="item-details">
+                            <div class="item-name">${item.name}</div>
+                            <div class="item-variants">
+                                ${item.selectedSize ? item.selectedSize + ', ' : ''}
+                                ${item.selectedColor || ''}
+                            </div>
+                            <div class="item-quantity">Qty: ${item.quantity}</div>
+                            <div class="item-price">£${(item.price * item.quantity).toFixed(2)}</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            // Display summary
+            if (orderSummary.subtotal) {
+                document.getElementById('order-subtotal').textContent = '£' + orderSummary.subtotal.toFixed(2);
+            }
+            if (orderSummary.shipping) {
+                document.getElementById('order-shipping').textContent = '£' + orderSummary.shipping.toFixed(2);
+            }
+            if (orderSummary.tax) {
+                document.getElementById('order-tax').textContent = '£' + orderSummary.tax.toFixed(2);
+            }
+            if (amount) {
+                document.getElementById('order-total').textContent = '£' + parseFloat(amount).toFixed(2);
+            }
+            
+            // Clear stored order data
+            localStorage.removeItem('pendingOrderItems');
+            localStorage.removeItem('pendingOrderSummary');
+            localStorage.removeItem('pendingCart');
+            
+        } catch (e) {
+            console.error('Error loading order details:', e);
+        }
+    </script>
+</body>
+</html>

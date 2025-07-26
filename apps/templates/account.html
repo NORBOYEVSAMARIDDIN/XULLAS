@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account | SHALLION</title>
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+</head>
+<body>
+    {% include 'partials/header.html' %}
+    <main class="account-container container">
+        <aside class="account-sidebar">
+            <h2>My Account</h2>
+            <nav class="account-nav">
+                <a href="{% url 'users:account' %}" class="active">Dashboard</a>
+                <a href="#">Orders</a>
+                <a href="#">Addresses</a>
+                <a href="{% url 'users:settings' %}">Settings</a>
+                <a href="#">Account Details</a>
+                <a href="#">Logout</a>
+            </nav>
+        </aside>
+
+        <section class="account-content">
+            <div class="d-flex align-items-center mb-4">
+                {% if user_profile.photo %}
+                    <img src="{{ user_profile.photo.url }}" alt="Profile Photo"
+                         class="rounded-circle object-fit-cover me-4"
+                         style="width: 100px; height: 100px;">
+                {% else %}
+                    <div class="d-flex justify-content-center align-items-center rounded-circle bg-secondary text-white me-4"
+                         style="width: 100px; height: 100px;">
+                        <i class="bi bi-person" style="font-size: 2rem;"></i>
+                    </div>
+                {% endif %}
+                <div>
+                    <h4 class="mb-1">{{ request.user.get_full_name }}</h4>
+                    <p class="mb-1 text-muted">@{{ request.user.username }}</p>
+                    <p class="mb-1 text-muted">{{ request.user.email }}</p>
+                </div>
+            </div>
+
+            <h1>Account Dashboard</h1>
+            <p>Hello! Here you can view your recent orders, manage your shipping and billing addresses, and edit your
+                password and account details.</p>
+
+            <div class="account-section">
+                <h2>Recent Orders</h2>
+                <p>You haven't placed any orders yet.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="js/app.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+</body>
+</html>

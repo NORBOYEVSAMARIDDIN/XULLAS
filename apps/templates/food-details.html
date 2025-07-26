@@ -1,0 +1,479 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Details | SHALLION</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+    <style>
+        .food-detail-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-xl);
+            margin: var(--space-xl) 0;
+        }
+        
+        .food-gallery {
+            position: relative;
+        }
+        
+        .food-main-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .food-badges {
+            position: absolute;
+            top: var(--space-md);
+            left: var(--space-md);
+            display: flex;
+            gap: var(--space-sm);
+        }
+        
+        .food-badge {
+            background: var(--secondary);
+            color: white;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--border-radius);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .food-badge.vegetarian {
+            background: #27ae60;
+        }
+        
+        .food-info {
+            padding: var(--space-lg);
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .food-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: var(--space-sm);
+            color: var(--dark);
+        }
+        
+        .food-description {
+            color: var(--gray);
+            margin-bottom: var(--space-lg);
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+        
+        .food-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-lg);
+            padding: var(--space-md);
+            background: var(--light);
+            border-radius: 8px;
+        }
+        
+        .food-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .food-rating {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+        
+        .food-rating i {
+            color: #f39c12;
+            font-size: 1.2rem;
+        }
+        
+        .food-rating span {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .food-details {
+            margin-bottom: var(--space-lg);
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--space-sm) 0;
+            border-bottom: 1px solid #e1e1e1;
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .detail-value {
+            color: var(--gray);
+        }
+        
+        .allergens-section {
+            margin-bottom: var(--space-lg);
+        }
+        
+        .allergens-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+            margin-top: var(--space-sm);
+        }
+        
+        .allergen-tag {
+            background: #fff3cd;
+            color: #856404;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .nutrition-section {
+            margin-bottom: var(--space-lg);
+        }
+        
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-sm);
+            margin-top: var(--space-sm);
+        }
+        
+        .nutrition-item {
+            background: var(--light);
+            padding: var(--space-sm);
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .nutrition-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .nutrition-label {
+            font-size: 0.8rem;
+            color: var(--gray);
+            text-transform: uppercase;
+        }
+        
+        .quantity-section {
+            margin-bottom: var(--space-lg);
+        }
+        
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-top: var(--space-sm);
+        }
+        
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 700;
+            transition: var(--transition);
+        }
+        
+        .quantity-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .quantity-input {
+            width: 60px;
+            text-align: center;
+            padding: var(--space-sm);
+            border: 2px solid var(--primary);
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .food-actions {
+            display: flex;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .food-actions .btn {
+            flex: 1;
+            padding: var(--space-md);
+            font-size: 1.1rem;
+        }
+        
+        .reviews-section {
+            margin-top: var(--space-xl);
+            padding-top: var(--space-xl);
+            border-top: 1px solid #e1e1e1;
+        }
+        
+        .review-item {
+            background: var(--light);
+            padding: var(--space-md);
+            border-radius: 8px;
+            margin-bottom: var(--space-md);
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-sm);
+        }
+        
+        .reviewer-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .review-date {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .review-rating {
+            display: flex;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .review-rating i {
+            color: #f39c12;
+        }
+        
+        .review-text {
+            color: var(--dark);
+            line-height: 1.5;
+        }
+        
+        .related-foods {
+            margin-top: var(--space-xl);
+            margin-bottom: var(--space-xl);
+            padding-top: var(--space-xl);
+            border-top: 1px solid #e1e1e1;
+        }
+        
+        .related-foods h3 {
+            margin-bottom: var(--space-lg);
+            color: var(--dark);
+        }
+        
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-md);
+        }
+        
+        .related-food-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .related-food-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .related-food-image {
+            height: 120px;
+            overflow: hidden;
+        }
+        
+        .related-food-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .related-food-info {
+            padding: var(--space-sm);
+        }
+        
+        .related-food-title {
+            font-weight: 600;
+            margin-bottom: var(--space-xs);
+            color: var(--dark);
+        }
+        
+        .related-food-price {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .food-detail-container {
+                grid-template-columns: 1fr;
+                gap: var(--space-lg);
+            }
+            
+            .food-main-image {
+                height: 300px;
+            }
+            
+            .food-title {
+                font-size: 1.5rem;
+            }
+            
+            .food-price {
+                font-size: 1.5rem;
+            }
+            
+            .nutrition-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .food-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% comment %} <header class="main-header">
+        <div class="container">
+            <a href="home.html" class="logo">SHALLION</a>
+            <nav class="main-nav">
+                <div class="nav-links">
+                    <a href="shop.html">Shop</a>
+                    <a href="food-shop.html">Food</a>
+                    <a href="account.html">Account</a>
+                    <a href="help.html">Help</a>
+                </div>
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Search Shallion...">
+                    <button id="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="nav-actions">
+                    <a href="cart.html" class="cart-link">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header> {% endcomment %}
+    {% include 'partials/header.html' %}
+
+    <main class="container">
+        <div class="food-detail-container">
+            <div class="food-gallery">
+                <img src="" alt="Food Image" class="food-main-image" id="food-main-image">
+                <div class="food-badges" id="food-badges">
+                    <!-- Badges will be loaded via JavaScript -->
+                </div>
+            </div>
+            
+            <div class="food-info">
+                <h1 class="food-title" id="food-title">Loading...</h1>
+                <p class="food-description" id="food-description">Loading...</p>
+                
+                <div class="food-meta">
+                    <div class="food-price" id="food-price">£0.00</div>
+                    <div class="food-rating" id="food-rating">
+                        <i class="fas fa-star"></i>
+                        <span>0.0</span>
+                    </div>
+                </div>
+                
+                <div class="food-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Preparation Time</span>
+                        <span class="detail-value" id="preparation-time">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Calories</span>
+                        <span class="detail-value" id="calories">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category</span>
+                        <span class="detail-value" id="category">-</span>
+                    </div>
+                </div>
+                
+                <div class="allergens-section">
+                    <h3>Allergens</h3>
+                    <div class="allergens-list" id="allergens-list">
+                        <!-- Allergens will be loaded via JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="nutrition-section">
+                    <h3>Nutrition Information</h3>
+                    <div class="nutrition-grid" id="nutrition-grid">
+                        <!-- Nutrition info will be loaded via JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="quantity-section">
+                    <h3>Quantity</h3>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" id="quantity-minus">-</button>
+                        <input type="number" value="1" min="1" max="10" class="quantity-input" id="quantity-input">
+                        <button class="quantity-btn" id="quantity-plus">+</button>
+                    </div>
+                </div>
+                
+                <div class="food-actions">
+                    <button class="btn btn-primary" id="add-to-cart-btn">
+                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                    <button class="btn btn-outline" onclick="window.location.href='food-shop.html'">
+                        <i class="fas fa-arrow-left"></i> Back to Menu
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="reviews-section">
+            <h2>Customer Reviews</h2>
+            <div id="reviews-container">
+                <!-- Reviews will be loaded via JavaScript -->
+            </div>
+        </div>
+        
+        <div class="related-foods">
+            <h3>You might also like</h3>
+            <div class="related-grid" id="related-foods">
+                <!-- Related foods will be loaded via JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <script src="js/food-details.js" type="module"></script>
+    <script src="js/app.js" type="module"></script>
+</body>
+</html>

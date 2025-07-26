@@ -1,0 +1,40 @@
+{% extends "settings/base.html" %}
+{% block title %} Upload Photo {% endblock %}
+{% block content %}
+    <h1 class="h4 mb-3">Personal Information</h1>
+    <div class="d-flex flex-wrap gap-4 mb-5">
+        <a href="{% url 'users:upload_photo' %}" class="text-secondary text-decoration-none">Upload Photo</a>
+        <a href="{% url 'users:read_profile' %}" class="text-primary text-decoration-none">Edit Profile</a>
+        <a href="{% url 'users:read_country' %}" class="text-primary text-decoration-none">Country/Region</a>
+        <a href="#" class="text-danger text-decoration-none">Delete Account</a>
+    </div>
+
+    <div class="account-section mb-5">
+        <h2 class="h5 mb-4">Security Information</h2>
+
+        <div class="d-flex align-items-center gap-4 flex-wrap">
+            {% if user_profile.photo %}
+                <img src="{{ user_profile.photo.url }}" alt="Profile Photo"
+                     class="rounded-circle object-fit-cover"
+                     style="width: 100px; height: 100px;">
+            {% else %}
+                <div class="d-flex justify-content-center align-items-center rounded-circle bg-secondary text-white"
+                     style="width: 100px; height: 100px;">
+                    <i class="bi bi-person" style="font-size: 2rem;"></i>
+                </div>
+            {% endif %}
+
+            <div class="d-flex flex-column gap-2">
+                <form method="post" enctype="multipart/form-data" action=''>
+                    {% csrf_token %}
+                    <label for="file-upload" class="btn btn-outline-primary">
+                        Change Photo
+                    </label>
+                    <input id="file-upload" type="file" name="image" accept="image/*" class="d-none"
+                           onchange="this.form.submit()">
+                </form>
+                <a href="{% url 'users:delete_photo' %}" class="btn btn-outline-danger">Delete Photo</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

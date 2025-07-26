@@ -1,0 +1,39 @@
+{% extends "settings/base.html" %}
+{% load static %}
+{% block title %}Change Email{% endblock %}
+
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+    <h1 class="h4 mb-3">Personal Information</h1>
+    <div class="d-flex flex-wrap gap-4 mb-5">
+        <a href="{% url 'users:upload_photo' %}" class="text-primary text-decoration-none">Upload Photo</a>
+        <a href="{% url 'users:read_profile' %}" class="text-primary text-decoration-none">Edit Profile</a>
+        <a href="{% url 'users:read_country' %}" class="text-primary text-decoration-none">Country/Region</a>
+        <a href="#" class="text-danger text-decoration-none">Delete Account</a>
+    </div>
+
+    <div class="account-section">
+        <h2 class="h5 mb-3">Security Information</h2>
+        <div class="">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="email" class="form-label"><strong>Enter new email:</strong></label>
+                    <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value="{{ user.email }}"
+                            placeholder="Enter New Email"
+                            class="form-control"
+                    >
+                    <div class="form-text">We will send a verification code</div>
+                </div>
+                <button type="submit" class="btn btn-success">Send Code</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

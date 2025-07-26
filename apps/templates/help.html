@@ -1,0 +1,574 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & Support | SHALLION</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+    <style>
+        .help-hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: var(--space-xl) 0;
+            text-align: center;
+            margin-bottom: var(--space-xl);
+        }
+        
+        .help-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: var(--space-md);
+        }
+        
+        .help-hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .help-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--space-xl);
+            margin-bottom: var(--space-xl);
+        }
+        
+        .help-content {
+            background: white;
+            border-radius: 12px;
+            padding: var(--space-xl);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .help-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg);
+        }
+        
+        .help-card {
+            background: white;
+            border-radius: 12px;
+            padding: var(--space-lg);
+            box-shadow: var(--shadow-md);
+            text-align: center;
+        }
+        
+        .help-card i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: var(--space-md);
+        }
+        
+        .help-card h3 {
+            margin-bottom: var(--space-sm);
+            color: var(--dark);
+        }
+        
+        .help-card p {
+            color: var(--gray);
+            margin-bottom: var(--space-md);
+        }
+        
+        .faq-section {
+            margin-bottom: var(--space-xl);
+        }
+        
+        .faq-item {
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+            margin-bottom: var(--space-sm);
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            background: var(--light);
+            padding: var(--space-md);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .faq-question:hover {
+            background: #e9ecef;
+        }
+        
+        .faq-question.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .faq-answer {
+            padding: 0 var(--space-md);
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-answer.active {
+            padding: var(--space-md);
+            max-height: 200px;
+        }
+        
+        .faq-toggle {
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-question.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+        
+        .contact-form {
+            background: var(--light);
+            padding: var(--space-lg);
+            border-radius: 12px;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .contact-form h3 {
+            margin-bottom: var(--space-md);
+            color: var(--dark);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin-bottom: var(--space-md);
+        }
+        
+        .form-group {
+            margin-bottom: var(--space-md);
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: var(--space-xs);
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: var(--space-sm);
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        
+        /* Chat Widget Styles */
+        .chat-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .chat-toggle {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .chat-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .chat-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .chat-window.active {
+            display: flex;
+        }
+        
+        .chat-header {
+            background: var(--primary);
+            color: white;
+            padding: var(--space-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chat-header h3 {
+            margin: 0;
+            font-size: 1rem;
+        }
+        
+        .chat-close {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: var(--space-md);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+        
+        .chat-message {
+            max-width: 80%;
+            padding: var(--space-sm) var(--space-md);
+            border-radius: 18px;
+            word-wrap: break-word;
+        }
+        
+        .chat-message.user {
+            background: var(--primary);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .chat-message.bot {
+            background: var(--light);
+            color: var(--dark);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .chat-input {
+            padding: var(--space-md);
+            border-top: 1px solid #e1e1e1;
+            display: flex;
+            gap: var(--space-sm);
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: var(--space-sm);
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+        
+        .chat-input button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .quick-action {
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: var(--space-md);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            color: var(--dark);
+        }
+        
+        .quick-action:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .quick-action i {
+            font-size: 1.5rem;
+            margin-bottom: var(--space-sm);
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .help-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .chat-window {
+                width: 300px;
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% comment %} <header class="main-header">
+        <div class="container">
+            <a href="home.html" class="logo">SHALLION</a>
+            <nav class="main-nav">
+                <div class="nav-links">
+                    <a href="shop.html">Shop</a>
+                    <a href="food-shop.html">Food</a>
+                    <a href="account.html">Account</a>
+                    <a href="help.html">Help</a>
+                </div>
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Search Shallion...">
+                    <button id="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="nav-actions">
+                    <a href="cart.html" class="cart-link">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header> {% endcomment %}
+    {% include 'partials/header.html' %}
+
+    <div class="help-hero">
+        <div class="container">
+            <h1>How can we help you?</h1>
+            <p>Find answers to common questions, get in touch with our support team, or chat with us live.</p>
+        </div>
+    </div>
+
+    <main class="container">
+        <div class="quick-actions">
+            <a href="#faq" class="quick-action">
+                <i class="fas fa-question-circle"></i>
+                <span>FAQ</span>
+            </a>
+            <a href="#contact" class="quick-action">
+                <i class="fas fa-envelope"></i>
+                <span>Contact Us</span>
+            </a>
+            <a href="#chat" class="quick-action">
+                <i class="fas fa-comments"></i>
+                <span>Live Chat</span>
+            </a>
+            <a href="#orders" class="quick-action">
+                <i class="fas fa-shipping-fast"></i>
+                <span>Track Order</span>
+            </a>
+        </div>
+
+        <div class="help-grid">
+            <div class="help-content">
+                <div class="faq-section" id="faq">
+                    <h2>Frequently Asked Questions</h2>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>How do I track my order?</span>
+                            <i class="fas fa-chevron-down faq-toggle"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>You can track your order by logging into your account and visiting the "My Orders" section. You'll receive tracking updates via email and SMS once your order ships.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>What is your return policy?</span>
+                            <i class="fas fa-chevron-down faq-toggle"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>We offer a 30-day return policy for most items. Food items cannot be returned for safety reasons. Please contact our support team to initiate a return.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>How long does delivery take?</span>
+                            <i class="fas fa-chevron-down faq-toggle"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Standard delivery takes 3-5 business days. Express delivery (1-2 days) is available for an additional fee. Food delivery is typically within 30 minutes.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Do you ship internationally?</span>
+                            <i class="fas fa-chevron-down faq-toggle"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Currently, we only ship within the United Kingdom. We're working on expanding our international shipping options.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>How can I change or cancel my order?</span>
+                            <i class="fas fa-chevron-down faq-toggle"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>You can modify or cancel your order within 1 hour of placing it. After that, please contact our support team immediately.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>What payment methods do you accept?</span>
+                            <i class="fas fa-chevron-down faq-toggle"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>We accept all major credit cards (Visa, MasterCard, American Express), PayPal, and Apple Pay. All payments are processed securely through Stripe.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form" id="contact">
+                    <h3>Contact Us</h3>
+                    <form id="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first-name">First Name</label>
+                                <input type="text" id="first-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="last-name">Last Name</label>
+                                <input type="text" id="last-name" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <select id="subject" required>
+                                <option value="">Select a subject</option>
+                                <option value="order">Order Issue</option>
+                                <option value="delivery">Delivery Problem</option>
+                                <option value="return">Return/Refund</option>
+                                <option value="product">Product Question</option>
+                                <option value="general">General Inquiry</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" placeholder="Please describe your issue..." required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="help-sidebar">
+                <div class="help-card">
+                    <i class="fas fa-phone"></i>
+                    <h3>Call Us</h3>
+                    <p>Speak with our customer service team</p>
+                    <a href="tel:+44123456789" class="btn btn-primary">+44 123 456 789</a>
+                </div>
+                
+                <div class="help-card">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Email Us</h3>
+                    <p>Get a response within 24 hours</p>
+                    <a href="mailto:support@shallion.com" class="btn btn-outline">support@shallion.com</a>
+                </div>
+                
+                <div class="help-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>Support Hours</h3>
+                    <p>Monday - Friday: 9AM - 6PM<br>
+                    Saturday: 10AM - 4PM<br>
+                    Sunday: Closed</p>
+                </div>
+                
+                <div class="help-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Visit Us</h3>
+                    <p>123 High Street<br>
+                    London, UK<br>
+                    SW1A 1AA</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget" id="chat">
+        <button class="chat-toggle" id="chat-toggle">
+            <i class="fas fa-comments"></i>
+        </button>
+        
+        <div class="chat-window" id="chat-window">
+            <div class="chat-header">
+                <h3>Live Chat</h3>
+                <button class="chat-close" id="chat-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="chat-messages" id="chat-messages">
+                <div class="chat-message bot">
+                    Hi! Welcome to SHALLION. How can I help you today?
+                </div>
+            </div>
+            
+            <div class="chat-input">
+                <input type="text" id="chat-input" placeholder="Type your message...">
+                <button id="chat-send">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/help.js" type="module"></script>
+    <script src="js/app.js" type="module"></script>
+</body>
+</html> 

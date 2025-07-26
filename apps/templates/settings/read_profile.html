@@ -1,0 +1,55 @@
+{% extends "settings/base.html" %}
+{% block title %} See Profile {% endblock %}
+{% block content %}
+    <h1 class="h4 mb-3">Personal Information</h1>
+    <div class="d-flex flex-wrap gap-4 mb-5">
+        <a href="{% url 'users:upload_photo' %}" class="text-primary text-decoration-none">Upload Photo</a>
+        <a href="{% url 'users:read_profile' %}" class="text-secondary text-decoration-none">Edit Profile</a>
+        <a href="{% url 'users:read_country' %}" class="text-primary text-decoration-none">Country/Region</a>
+        <a href="#" class="text-danger text-decoration-none">Delete Account</a>
+    </div>
+
+    <div class="container mt-5">
+        <div class="card shadow-sm rounded p-4">
+            <h2 class="h5 mb-4">Profile Information</h2>
+            <div class="mb-3">
+                Name:
+                {% if user.first_name %}
+                    {{ user.first_name }}
+                {% else %}
+                    <i class="text-danger">No firstname provided yet.</i>
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                Surname:
+                {% if user.last_name %}
+                    {{ user.last_name }}
+                {% else %}
+                    <i class="text-danger">No surname provided yet.</i>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                Username:
+                {{ user.username }}
+            </div>
+
+            <div class="mb-3">
+                Phone:
+                {{ user_profile.phone }}
+            </div>
+
+            <div class="mb-3">
+                Address:
+                {{ user_profile.address }}
+            </div>
+
+            <div class="mb-3">
+                Date of birth:
+                {{ user_profile.date_of_birth }}
+            </div>
+
+            <a href="{% url 'users:edit_profile' %}" class="btn btn-warning">Edit Profile</a>
+        </div>
+    </div>
+{% endblock %}
