@@ -5,15 +5,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Account Settings | SHALLION</title>
+
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/components.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet">
     <style>
+        :root {
+            --primary: #3b82f6;
+            --hover: #2563eb;
+            --danger: #ef4444;
+            --muted: #64748b;
+        }
+        body {
+            background-color: #f0f9ff;
+            font-family: "Inter", sans-serif;
+            color: #1e293b;
+        }
+        a{
+            text-decoration: none;
+        }
+        .catalog-wrapper {
+            max-width: 1000px;
+            margin: 60px auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 45px;
+        }
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: column;
+        }
+        .header-bar h2 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .btn-create {
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background-color 0.3s ease;
+        }
+        .btn-create:hover {
+            background-color: var(--hover);
+        }
+        .cursor-pointer{
+            cursor: default;
+        }
     </style>
 </head>
 <body>
@@ -23,8 +74,8 @@
             <h2>My Account</h2>
             <nav class="account-nav">
                 <a href="{% url 'users:account' %}">Dashboard</a>
-                <a href="#">Orders</a>
-                <a href="#">Addresses</a>
+                <a href="{% url 'users:my-orders' %}">Orders</a>
+                <a href={% url 'users:address' %}>Address</a>
                 <a href="{% url 'users:settings' %}" class="active">Settings</a>
                 <a href="#">Account Details</a>
                 <a href="{% url 'users:logout' %}">Logout</a>

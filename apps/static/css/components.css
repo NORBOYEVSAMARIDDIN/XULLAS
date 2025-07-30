@@ -41,8 +41,6 @@
 
 .nav-actions {
     display: flex;
-    gap: var(--space-md);
-    margin-left: auto;
 }
 
 .main-nav a {

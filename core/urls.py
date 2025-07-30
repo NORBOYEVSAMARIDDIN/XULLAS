@@ -14,7 +14,9 @@ urlpatterns = [
     path('images/<path:path>', serve, {'document_root': os.path.join(settings.BASE_DIR, 'apps/static/images')}),
     path('users/', include('apps.users.urls')),
     path('products/', include('apps.products.urls')),
-    path('', views.redirect_to_home)
+    path('cart/', include('apps.cart.urls')),
+    path('orders/', include('apps.orders.urls')),
+    path('', views.redirect_to_home),
 
 ]
 

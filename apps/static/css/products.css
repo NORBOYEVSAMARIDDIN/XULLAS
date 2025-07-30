@@ -1,0 +1,83 @@
+
+        :root {
+            --primary: #3b82f6;
+            --hover: #2563eb;
+            --danger: #ef4444;
+            --muted: #64748b;
+        }
+        body {
+            background-color: #f0f9ff;
+            font-family: "Inter", sans-serif;
+            color: #1e293b;
+        }
+        .catalog-wrapper {
+            max-width: 1000px;
+            margin: 60px auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+        }
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .header-bar h2 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .btn-create {
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background-color 0.3s ease;
+        }
+        .btn-create:hover {
+            background-color: var(--hover);
+        }
+        .modern-table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .modern-table thead {
+            background-color: #f1f5f9;
+        }
+        .modern-table th,
+        .modern-table td {
+            text-align: left;
+            padding: 16px;
+            font-size: 15px;
+        }
+        .modern-table tbody tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        .modern-table tbody tr:hover {
+            background-color: #eef2f7;
+        }
+        .action-icons {
+            display: flex;
+            gap: 12px;
+        }
+        .action-icons a {
+            color: var(--muted);
+            font-size: 18px;
+            transition: 0.2s ease;
+        }
+        .action-icons a:hover {
+            transform: scale(1.2);
+            color: var(--primary);
+        }
+        .alert-custom {
+            max-width: 1000px;
+            margin: 0 auto 20px;
+        }

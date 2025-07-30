@@ -76,5 +76,3 @@ python manage.py runserver
 
 - Use `python manage.py runserver` to run development server
 - Access admin panel at `http://localhost:8000/admin/`
-
-

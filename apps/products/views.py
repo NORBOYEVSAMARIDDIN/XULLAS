@@ -3,6 +3,7 @@ from . models import Product, Catalog
 from django.http import Http404
 from django.contrib import messages
 from .permissions import superuser_required
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -32,9 +33,19 @@ def payment_success(request):
 def payment_details(request):
     return render(request, 'payment-details.html')
 
-def shop(request):
-    return render(request, 'shop.html')
-
+@login_required
+def shop(request, id = None):
+    products = Product.objects.all()
+    catalogs = Catalog.objects.all()
+    if id:
+        try:
+            catalog = get_object_or_404(Catalog, id=id)
+            products = Product.objects.filter(catalog = catalog)
+            return render(request, 'shop.html', {'products': products, 'catalogs': catalogs, 'catalog_id': catalog.id})
+        except Http404:
+            messages.error(request, "The catalog does not exist.")
+            return redirect('products:shop')
+    return render(request, 'shop.html', {'products': products, 'catalogs': catalogs})
 
 
 

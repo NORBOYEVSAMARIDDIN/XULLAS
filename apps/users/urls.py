@@ -30,4 +30,9 @@ urlpatterns = [
 
     path('login/google/', views.google_loging, name='google_login'),
     path('google/login/callback/', views.google_callback, name='google_callback'),
+
+
+    path('address/', views.address, name='address'),
+
+    path('my-orders/', views.my_orders, name='my-orders')
 ]

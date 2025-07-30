@@ -2,13 +2,17 @@ import requests
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-from .models import User, Code, UserProfile
+from .models import User, Code, UserProfile, UserAddress
 from .service import send_registration_code_async, send_change_email_code_async
 from django.contrib import messages
 from .forms import UserForm, UserProfileForm, CountryForm
 from django.contrib.auth.hashers import check_password
 from core.settings import base
 from django.http import HttpResponse
+from django.http import Http404
+from django.core.exceptions import ObjectDoesNotExist
+from apps.orders.models import Order, OrderAddress, OrderItem, OrderStatus
+from django.conf import settings
 
 def register_view(request):
     if request.method == 'POST':
@@ -68,7 +72,7 @@ def logout_view(request):
 @login_required
 def home_view(request):
     user = request.user
-    return render(request, 'home.html')
+    return render(request, 'home.html', {'user':user})
 
 @login_required
 def account_view(request):
@@ -289,46 +293,6 @@ def google_loging(request):
     )
     return redirect(auth_url)
 
-
-# def google_callback(request):
-#     code = request.GET.get('code')
-#     token_data = {
-#         "code": code,
-#         "client_id": base.GOOGLE_CLIENT_ID,
-#         "client_secret": base.GOOGLE_CLIENT_SECRET,
-#         "redirect_uri": base.GOOGLE_REDIRECT_URI,
-#         "grant_type": "authorization_code",
-#     }
-#     token_response = requests.post(base.GOOGLE_TOKEN_URL, data=token_data)
-#     token_json = token_response.json()
-#     access_token = token_json.get("access_token")
-#     user_info_response = requests.get(base.GOOGLE_USER_INFO_URL, headers={"Authorization": f"Bearer {access_token}"})
-#     user_info = user_info_response.json()
-#
-#     email = user_info.get('email')
-#     google_id = user_info.get('id')
-#
-#     try:
-#         user = User.objects.get(email=email)
-#         if not user.google_id:
-#             user.google_id = google_id
-#             user.save()
-#     except User.DoesNotExist:
-#         user = User.objects.create(
-#             email = email,
-#             google_id = google_id,
-#             first_name=user_info.get('given_name'),
-#             last_name=user_info.get('family_name'),
-#         )
-#         user_profile = UserProfile.objects.create(
-#             user = user
-#         )
-#     login(request, user)
-#     return redirect('users:home')
-
-
-
-
 def google_callback(request):
     code = request.GET.get('code')
 
@@ -374,3 +338,50 @@ def google_callback(request):
 
     login(request, user)
     return redirect('users:home')
+
+
+
+
+@login_required
+def address(request):
+    user = request.user
+    try:
+        address = UserAddress.objects.get(user=user)
+    except UserAddress.DoesNotExist:
+        address = None
+
+    if request.method == 'POST':
+        address_value = request.POST.get('address')
+        longitude = request.POST.get('longitude')
+        latitude = request.POST.get('latitude')
+
+        if address:
+            address.address = address_value
+            address.longitude = longitude
+            address.latitude = latitude
+            address.save()
+        else:
+            address = UserAddress.objects.create(
+                user=user,
+                address=address_value,
+                longitude=longitude,
+                latitude=latitude
+            )
+
+
+    return render(request, 'users/address.html', {'address': address, "google_maps_api_key": settings.GOOGLE_MAPS_API_KEY})
+
+
+
+
+
+
+
+@login_required
+def my_orders(request):
+    user = request.user
+    orders = Order.objects.filter(user=user).prefetch_related(
+        'orderitem__product',   
+        'orderaddress'
+    )
+    return render(request, 'users/my_orders.html', {'orders': orders})

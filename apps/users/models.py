@@ -10,6 +10,15 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+    
+class UserAddress(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='address')
+    address = models.CharField()
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+
+    def __str__(self):
+        return self.address
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', null=True, blank=True)

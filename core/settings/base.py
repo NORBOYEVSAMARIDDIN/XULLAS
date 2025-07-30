@@ -36,6 +36,8 @@ CUSTOM_APPS = [
     "apps.common",
     'apps.users.apps.UsersConfig',
     'apps.products',
+    'apps.cart',
+    'apps.orders',
 ]
 
 THIRD_PARTY_APPS = [
@@ -160,3 +162,7 @@ GOOGLE_REDIRECT_URI="http://localhost:8000/users/google/login/callback/"
 GOOGLE_AUTH_URL="https://accounts.google.com/o/oauth2/auth"
 GOOGLE_USER_INFO_URL="https://www.googleapis.com/oauth2/v1/userinfo"
 GOOGLE_TOKEN_URL="https://oauth2.googleapis.com/token"
+
+
+
+GOOGLE_MAPS_API_KEY = env("GOOGLE_MAPS_API_KEY")
